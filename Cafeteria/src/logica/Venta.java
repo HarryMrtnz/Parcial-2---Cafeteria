@@ -1,13 +1,13 @@
 package logica;
 
 public class Venta {
-	private String id;
+	private int id;
 	private Cafe cafe;
 	private int cantidad;
 	private boolean tarjetaSocio;
 	private double total;
 
-	public Venta(String id, Cafe cafe, int cantidad, boolean tarjetaSocio, double total) {
+	public Venta(int id, Cafe cafe, int cantidad, boolean tarjetaSocio, double total) {
 		super();
 		this.id = id;
 		this.cafe = cafe;
@@ -16,11 +16,11 @@ public class Venta {
 		this.total = total;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -61,15 +61,7 @@ public class Venta {
 		return "Venta [id=" + id + ", cafe=" + cafe + ", cantidad=" + cantidad + ", tarjetaSocio=" + tarjetaSocio
 				+ ", total=" + total + "]";
 	}
-
-	public double venta (double precio, double total) {
-		
-		this.total = this.getCafe().getPrecio() * this.getCantidad();
-		
-		return total;
-	}
 	
-	 
 	
 	
 	
