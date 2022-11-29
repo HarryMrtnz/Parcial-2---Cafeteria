@@ -12,27 +12,27 @@ public class Main {
 	public static void main(String[] args) {
 		
 		LinkedList <Venta> ventas = new LinkedList(); 
-		LinkedList <Venta> ventasConDescuento = new LinkedList(); 
-		LinkedList <Cafe> listaCafe = new LinkedList(); 
 		
+		//hardcodeando ventas (Entregar con los objetos comentados).
+		Cafe latte = new Cafe ("Latte", 1.50);
+		Cafe flat_white = new Cafe ("Flat White", 2.50);
+		Cafe lagrima = new Cafe ("Lagrima", 1.30);
+		Cafe expresso = new Cafe ("Expresso", 1.00);
 		
-//		Cafe latte = new Cafe ("Late", 1.50);
-//		Cafe flat_white = new Cafe ("Flat White", 2.50);
-//		Cafe lagrima = new Cafe ("Lagrima", 1.30);
-//		Cafe expresso = new Cafe ("Expresso", 1.00);
-//		
-//		ventas.add(new Venta(1, expresso, 3, false, 5));
-//		ventas.add(new Venta(2, latte, 1, false, 4));
-//		ventas.add(new Venta(3, lagrima, 5, true, 2));
-//		ventas.add(new Venta(4, flat_white, 2, true, 8));
+		ventas.add(new Venta(1, expresso, 3, false, 3.0));
+		ventas.add(new Venta(2, latte, 1, false, 6.0));
+		ventas.add(new Venta(3, lagrima, 5, false, 5.525));
+		ventas.add(new Venta(4, flat_white, 2, true, 4.25));
+		ventas.add(new Venta(5, lagrima, 6, true, 2.21));
 		
 //		JOptionPane.showInputDialog(null,"Bienvenido.\n Elije el cafe que desea llevar:",JOptionPane.DEFAULT_OPTION);
-		menu(ventas, ventasConDescuento);
+		
+		menu(ventas);
 			
 		
 	}
 	
-	public static void menu(LinkedList<Venta>ventas, LinkedList<Venta>ventasConDescuento) {
+	public static void menu(LinkedList<Venta>ventas) {
 		
 		Venta venta = null;
 		int opcion;
@@ -81,9 +81,9 @@ public class Main {
 					venta = new Venta(id, expresso, 0, false, 0);
 					break;
 				case "x":
-					menu(ventas, ventasConDescuento);
+					menu(ventas);
 				default:
-					menu(ventas, ventasConDescuento);
+					menu(ventas);
 					break;
 				}
 			
@@ -135,102 +135,51 @@ public class Main {
 						break;
 	
 					default:
+						menu(ventas);
 						break;
 					}
 			}		
 			break;
 		case 2:
-			mostrarVentas(ventas);
-			menu(ventas, ventasConDescuento);
+			venta.mostrarVentas(ventas);
+			menu(ventas);
 			break;
 		case 3:
-			
+			JOptionPane.showMessageDialog(null,venta.cafeMasVendido(ventas));
+			menu(ventas);
 			break;
 		case 4:
-			recaudacion(ventas);
-			menu(ventas, ventasConDescuento);
+			venta.recaudacion(ventas);
+			menu(ventas);
 			break;
 		case 5:
-			mostrarVentasConDescuento(ventas, ventasConDescuento);
-			menu(ventas, ventasConDescuento);
+			venta.mostrarVentasConDescuento(ventas);
+			menu(ventas);
 			break;
 		case 6:
-			eliminarVenta(ventas);
-			menu(ventas, ventasConDescuento);
+			venta.eliminarVenta(ventas);
+			menu(ventas);
 			break;
 		default:
-			menu(ventas, ventasConDescuento);
+			menu(ventas);
 			break;
 		}
 		
 	}
 	
-
-
-
-	public static void mostrarVentas(LinkedList<Venta> ventas) {
-		if (ventas.isEmpty()) {
-			System.out.println("No hay ventas pa!");
-		} else {
-			for (Venta venta : ventas) {
-				JOptionPane.showMessageDialog(null, "Venta Numero: "+venta.getId() 
-				+"\n Productos: "+venta.getCafe().getTipo()
-				+" [Precio: $"+venta.getCafe().getPrecio()
-				+"] x"+ venta.getCantidad()
-				+"\n Descuento "+ venta.isTarjetaSocio()
-				+"\n Total: $"+venta.getTotal()+"\n");
-			}
-		}
-	}
-	
-	public static void mostrarVentasConDescuento(LinkedList<Venta> ventas, LinkedList<Venta> ventasconDescuento) {
-		for (Venta venta : ventas) {
-			if (venta.isTarjetaSocio()) {
-				ventasconDescuento.add(venta);
-				
-			}
-			for (Venta venta2 : ventasconDescuento) {
-				
-			
-				JOptionPane.showMessageDialog(null, "Venta Numero: "+venta2.getId() 
-				+"\n Productos: "+venta2.getCafe().getTipo()
-				+" [Precio: $"+venta2.getCafe().getPrecio()
-				+"] x"+ venta2.getCantidad()
-				+"\n Descuento "+ venta2.isTarjetaSocio()
-				+"\n Total: $"+venta2.getTotal()+"\n");
-			}
-		}
-	}
-	
-	public static void recaudacion(LinkedList<Venta> ventas) {
-		double recaudacion = 0;
-		
-		for (Venta venta : ventas) {
-			recaudacion = venta.getTotal()+ recaudacion;
-			
-		}
-		
-		JOptionPane.showMessageDialog(null,"Se han hecho "+ventas.size()+" ventas hoy."  
-				+"\n RECAUDACION TOTAL DEL DIA:" 
-				+"\n   $"+recaudacion);
-		
-	}
-	
-	public static void eliminarVenta(LinkedList<Venta> ventas) {
-		int opcion;
-		opcion =  Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el numero de venta a eliminar:"));
-		if (ventas.isEmpty()) {
-			System.out.println("No hay ventas pa!");
-		} else {
-			
-			for (Venta venta : ventas) {
-				if (venta.getId()== opcion) {
-					ventas.remove(ventas.indexOf(venta));
-					JOptionPane.showMessageDialog(null, "Se ha eliminado la venta numero "+opcion);
-				}
-			}
-		}
-	}
+//	public static void recaudacion(LinkedList<Venta> ventas) {
+//		double recaudacion = 0;
+//		
+//		for (Venta venta : ventas) {
+//			recaudacion = venta.getTotal()+ recaudacion;
+//			
+//		}
+//		
+//		JOptionPane.showMessageDialog(null,"Se han hecho "+ventas.size()+" ventas hoy."  
+//				+"\n RECAUDACION TOTAL DEL DIA:" 
+//				+"\n   $"+recaudacion);
+//		
+//	}
 	
 	
 }
